@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: "${CONTAINER_NAME_PREFIX}-nginx"
+    ports:
+      - "80:80"
+    volumes:
+      - ./server-config/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./app:/var/www/html
+    networks:
+      - my-network
+  
+  php:
+    build: ./
+    container_name: "${CONTAINER_NAME_PREFIX}-php"
+    environment:
+      PHP_IDE_CONFIG: "serverName=MyFirstSymfony"
+    volumes:
+      - ./app:/var/www/html
+      # - ./server-config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - my-network
+
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    container_name: "${CONTAINER_NAME_PREFIX}-pgsql"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - pgsql-volume:/var/lib/postgresql/data:rw
+    networks:
+      - my-network
+
+  pgadmin:
+    image: dpage/pgadmin4:7.7
+    container_name: "${CONTAINER_NAME_PREFIX}-pgadmin4"
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: your.email@mail.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
+
+networks:
+    my-network:
+        driver: bridge
+volumes:
+  pgsql-volume:
+    driver: local
+  pgadmin-volume:
+    driver: local
