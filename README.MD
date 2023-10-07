@@ -32,7 +32,7 @@ composer create-project symfony/skeleton ./
 
 
 ## Installed Containers
-- [pgp-fpm]
+- [php-fpm]
 - [Postgresql 15]
 - [Nginx] (http://localhost)
 - [PgAdmin4] (http://localhost:5050)
