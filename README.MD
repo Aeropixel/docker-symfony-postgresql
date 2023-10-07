@@ -18,9 +18,16 @@ docker compose up --build -d
 Install the latest Symfony version on your containerphp container:
 ```
 docker exec -it my_symfony-php bash
+```
+
+```
 symfony check:requirements
+```
+
+```
 composer create-project symfony/skeleton ./
 ```
+
 
 ## Installed Containers
 - [Nginx] (http://localhost)
