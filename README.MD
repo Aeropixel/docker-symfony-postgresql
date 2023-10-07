@@ -20,10 +20,12 @@ Install the latest Symfony version on your containerphp container:
 docker exec -it my_symfony-php bash
 ```
 
+Confirm if the environment has all the requirements needed to install Symfony:
 ```
 symfony check:requirements
 ```
 
+Install symfony:
 ```
 composer create-project symfony/skeleton ./
 ```
